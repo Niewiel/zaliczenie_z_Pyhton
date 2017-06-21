@@ -24,7 +24,11 @@ zegar = pygame.time.Clock()
 tree1 = pygame.image.load('tree.png')
 plik_obcy = pygame.image.load('obcy.png')
 BONUS = pygame.image.load('bonus.png')
-muzyka=pygame.mixer.Sound('alien_music.wav')
+muzyka = pygame.mixer.Sound('alien_music.wav')
+die = pygame.mixer.Sound('dead.wav')
+gift = pygame.mixer.Sound('gift.wav')
+śmiech = pygame.mixer.Sound('Straszny_śmiech.wav')
+koniec = pygame.mixer.Sound('koniec_gry.wav')
 
 down1 = pygame.image.load('a1.png')
 down2 = pygame.image.load('a2.png')
@@ -153,9 +157,11 @@ class Gracz(pygame.sprite.Sprite):
         for i in grupa_obcych:
             if pygame.sprite.spritecollide(self, grupa_obcych, True):
                 gracz.trafione += 1
+                pygame.mixer.Sound.play(die)
         for j in grupa_bonusów:
-            j.właściwość=random.randint(0,30)
+            j.właściwość = random.randint(0, 30)
             if pygame.sprite.spritecollide(self, grupa_bonusów, True):
+                pygame.mixer.Sound.play(gift)
                 if j.właściwość < 10:
                     pass
 
@@ -167,7 +173,6 @@ class Gracz(pygame.sprite.Sprite):
                     self.prędkość += 10
                 else:
                     pass
-
 
 
 class Potwór(pygame.sprite.Sprite):
@@ -188,6 +193,7 @@ class Potwór(pygame.sprite.Sprite):
 
     def sprawdź_krawędzie_boczne(self):
         if self.rect.left > SZEROKOŚĆ:
+            pygame.mixer.Sound.play(śmiech)
             return True
         else:
             return False
@@ -292,7 +298,7 @@ def reset_planszy(gracz, ekran):
     gracz.trafione = 0
     grupa_obcych = stwórz_obcych(gracz.lvl)
     grupa_bonusów = stwórz_bonus(1)
-    gracz.prędkość=2
+    gracz.prędkość = 2
 
     gracz.rect.x = SZEROKOŚĆ - 100
     gracz.rect.y = WYSOKOŚĆ // 2 - gracz.image.get_rect().height
@@ -314,7 +320,8 @@ grupa_bonusów = stwórz_bonus(1)
 obiekt_punkty = Tekst(gracz.lvl, CIEMNOZIELONY, [SZEROKOŚĆ // 2, 20])
 obiekt_poziom = Tekst("aby zabić potwora podejdź do niego i wciśnij spację", CZARNY, [SZEROKOŚĆ // 2, WYSOKOŚĆ // 2],
                       56)
-obiekt_instrukcja = Tekst("aby zabić potwora lub podnieść bonus podejdź do niego i wciśnij spację", CZARNY, [SZEROKOŚĆ // 2, 60], 30)
+obiekt_instrukcja = Tekst("aby zabić potwora lub podnieść bonus podejdź do niego i wciśnij spację", CZARNY,
+                          [SZEROKOŚĆ // 2, 60], 30)
 
 przycisk = Przycisk("START ", 300, 100, SZARY, CZARNY)
 pygame.mixer.Sound.play(muzyka)
@@ -361,6 +368,7 @@ while okno_otwarte:
                 ekran.blit(mini_obraz, [40 * i, 15])
 
         if not gracz.życie:
+            pygame.mixer.Sound.play(koniec)
             okno_otwarte = False
 
         if len(grupa_obcych) == 0:
