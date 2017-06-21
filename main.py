@@ -394,6 +394,10 @@ ekran.fill(BIAŁY)
 obiekt_poziom.tekst = "KONIEC GRY"
 obiekt_poziom.ustaw([SZEROKOŚĆ // 2, WYSOKOŚĆ // 2])
 obiekt_poziom.draw(ekran)
-pygame.display.flip()
 time.sleep(0.5)
+obiekt_poziom.tekst = "doszedłeś do "+str(gracz.lvl)+" poziomu"
+obiekt_poziom.ustaw([SZEROKOŚĆ // 2, WYSOKOŚĆ // 4])
+obiekt_poziom.draw(ekran)
+pygame.display.flip()
+time.sleep(2)
 pygame.quit()
