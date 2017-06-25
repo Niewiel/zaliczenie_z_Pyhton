@@ -16,7 +16,7 @@ SZARY = pygame.color.THECOLORS['gray']
 
 # zmienne globalne
 ekran = pygame.display.set_mode(ROZMIAR)
-pygame.display.set_caption('zabij obcego')
+pygame.display.set_caption('The walking alien')
 okno_otwarte = True
 start = True
 gra_aktywna = False
